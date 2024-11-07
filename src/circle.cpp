@@ -13,3 +13,7 @@ std::string Circle::to_str() const {
     output.append(std::to_string(r));
     return output;
 }
+
+std::unique_ptr<Figure> Circle::clone() const {
+    return std::make_unique<Circle>(*this);
+}

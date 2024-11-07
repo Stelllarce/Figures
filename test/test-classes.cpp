@@ -100,3 +100,33 @@ TEST_CASE("Rectangle to_str method tests", "[rectangle]") {
     REQUIRE(r2.to_str() == "rectangle 5 5");
     REQUIRE(r3.to_str() == "rectangle 2 3");
 }
+
+TEST_CASE("Triangle clone method tests", "[triangle]") {
+    Triangle t1(3, 4, 5);
+    auto t1_clone = t1.clone();
+    REQUIRE(t1.to_str() == t1_clone->to_str());
+
+    Triangle t2(5, 5, 5);
+    auto t2_clone = t2.clone();
+    REQUIRE(t2.to_str() == t2_clone->to_str());
+}
+
+TEST_CASE("Circle clone method tests", "[circle]") {
+    Circle c1(1);
+    auto c1_clone = c1.clone();
+    REQUIRE(c1.to_str() == c1_clone->to_str());
+
+    Circle c2(10);
+    auto c2_clone = c2.clone();
+    REQUIRE(c2.to_str() == c2_clone->to_str());
+}
+
+TEST_CASE("Rectangle clone method tests", "[rectangle]") {
+    Rectangle r1(3, 4);
+    auto r1_clone = r1.clone();
+    REQUIRE(r1.to_str() == r1_clone->to_str());
+
+    Rectangle r2(5, 5);
+    auto r2_clone = r2.clone();
+    REQUIRE(r2.to_str() == r2_clone->to_str());
+}

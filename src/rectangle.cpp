@@ -13,3 +13,7 @@ std::string Rectangle::to_str() const {
     output.append(std::to_string(a) + " " + std::to_string(b));
     return output;
 }
+
+std::unique_ptr<Figure> Rectangle::clone() const {
+    return std::make_unique<Rectangle>(*this);
+}

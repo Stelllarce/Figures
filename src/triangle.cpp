@@ -15,3 +15,7 @@ std::string Triangle::to_str() const {
     output.append(std::to_string(a) + " " + std::to_string(b) + " " + std::to_string(c));
     return output;
 }
+
+std::unique_ptr<Figure> Triangle::clone() const {
+    return std::make_unique<Triangle>(*this);
+}
