@@ -5,12 +5,12 @@ Circle::Circle(type_t rad): r(rad) {
     if (r > MAX_OVERFLOW / (2 * PI)) throw std::overflow_error("Perimeter overflow");
 }
 
-type_t Circle::perimeter() const { return (type_t)(2 * r * PI); }
+type_t Circle::perimeter() const noexcept { return (type_t)(2 * r * PI); }
 
 std::string Circle::to_str() const {
     std::string output;
     output.append("circle ");
-    output.append(std::to_string(r));
+    output.append(stringify(r));
     return output;
 }
 
