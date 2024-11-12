@@ -8,9 +8,9 @@ public:
     virtual ~StringConverter() = default;
 protected:
     static std::string stringify(double a) {
-        if (a - std::floor(a) < 0.1)
-            return std::to_string(static_cast<int>(a));
-        else
-            return std::to_string(a);
+        std::string str = std::to_string(a);
+        str.erase(str.find_last_not_of('0') + 1, std::string::npos);
+        str.erase(str.find_last_not_of('.') + 1, std::string::npos);
+        return str;
     }
 };
