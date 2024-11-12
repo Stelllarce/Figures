@@ -72,6 +72,18 @@ TEST_CASE("Rectangle class tests", "[rectangle]") {
     }
 }
 
+TEST_CASE("Rectangle to_str method tests", "[rectangle]") {
+    Rectangle r1(3.0, 4.0);
+    Rectangle r2(5.0, 5.0);
+    Rectangle r3(2.0, 3.0);
+    Rectangle r4(2.5, 3.5);
+
+    REQUIRE(r1.to_str() == "rectangle 3 4");
+    REQUIRE(r2.to_str() == "rectangle 5 5");
+    REQUIRE(r3.to_str() == "rectangle 2 3");
+    REQUIRE(r4.to_str() == "rectangle 2.5 3.5");
+}
+
 TEST_CASE("Triangle to_str method tests", "[triangle]") {
     Triangle t1(3.0, 4.0, 5.0);
     Triangle t2(5.0, 5.0, 5.0);
@@ -81,7 +93,7 @@ TEST_CASE("Triangle to_str method tests", "[triangle]") {
     REQUIRE(t1.to_str() == "triangle 3 4 5");
     REQUIRE(t2.to_str() == "triangle 5 5 5");
     REQUIRE(t3.to_str() == "triangle 2 2 3");
-    REQUIRE(t4.to_str() == "triangle 2.500000 2.500000 3.500000");
+    REQUIRE(t4.to_str() == "triangle 2.5 2.5 3.5");
 }
 
 TEST_CASE("Circle to_str method tests", "[circle]") {
@@ -93,7 +105,7 @@ TEST_CASE("Circle to_str method tests", "[circle]") {
     REQUIRE(c1.to_str() == "circle 1");
     REQUIRE(c2.to_str() == "circle 10");
     REQUIRE(c3.to_str() == "circle 100");
-    REQUIRE(c4.to_str() == "circle 2.500000");
+    REQUIRE(c4.to_str() == "circle 2.5");
 }
 
 TEST_CASE("Triangle clone method tests", "[triangle]") {
