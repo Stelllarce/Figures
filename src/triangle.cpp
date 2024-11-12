@@ -7,12 +7,12 @@ Triangle::Triangle(type_t side_a, type_t side_b, type_t side_c): a(side_a), b(si
     if (a + b <= c || a + c <= b || b + c <= a) throw std::invalid_argument("Such sides cannot form a triangle"); 
 }
 
-type_t Triangle::perimeter() const { return a + b + c; }
+type_t Triangle::perimeter() const noexcept { return a + b + c; }
 
 std::string Triangle::to_str() const {
     std::string output;
     output.append("triangle ");
-    output.append(std::to_string(a) + " " + std::to_string(b) + " " + std::to_string(c));
+    output.append(stringify(a) + " " + stringify(b) + " " + stringify(c));
     return output;
 }
 
