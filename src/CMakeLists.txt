@@ -14,6 +14,8 @@ target_sources(
         "string_converter.hpp"
         "rectangle.hpp"
         "rectangle.cpp"
+        "figure_string_converter.hpp"
+        "figure_string_converter.cpp"
 )
 
 
