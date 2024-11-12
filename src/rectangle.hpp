@@ -7,7 +7,7 @@ class Rectangle: public Figure {
 public:
     Rectangle(type_t a, type_t b);
     
-    type_t perimeter() const override;
+    type_t perimeter() const noexcept override;
     std::string to_str() const override;
     std::unique_ptr<Figure> clone() const override;
 private:

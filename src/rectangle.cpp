@@ -5,12 +5,13 @@ Rectangle::Rectangle(type_t side_a, type_t side_b): a(side_a), b(side_b) {
     if (a > (MAX_OVERFLOW - (2 * b)) / 2 || b > (MAX_OVERFLOW - (2 * a)) / 2) throw std::overflow_error("Perimeter would overflow");
 }
 
-type_t Rectangle::perimeter() const { return (type_t)(2 * (a + b)); }
+type_t Rectangle::perimeter() const noexcept { return (type_t)(2 * (a + b)); }
 
 std::string Rectangle::to_str() const {
     std::string output;
     output.append("rectangle ");
-    output.append(std::to_string(a) + " " + std::to_string(b));
+
+    output.append(stringify(a) + " " + stringify(b));
     return output;
 }
 
