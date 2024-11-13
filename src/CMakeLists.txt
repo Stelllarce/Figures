@@ -19,6 +19,8 @@ target_sources(
         "figure_factory.hpp"
         "random_figure_factory.hpp"
         "random_figure_factory.cpp"
+        "stream_figure_factory.hpp"
+        "stream_figure_factory.cpp"
 )
 
 
