@@ -3,6 +3,7 @@
 #include "circle.hpp"
 #include "rectangle.hpp"
 #include "figure_string_converter.hpp"
+#include "random_figure_factory.hpp"
 #include <limits> // for numeric limits
 
 TEST_CASE("Triangle class tests", "[triangle]") {
@@ -26,10 +27,10 @@ TEST_CASE("Triangle class tests", "[triangle]") {
     }
 
     SECTION("Overflow") {
-        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<type_t>::max(), std::numeric_limits<type_t>::max(), 1), std::overflow_error);
-        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<type_t>::max(), 1, std::numeric_limits<type_t>::max()), std::overflow_error);
-        REQUIRE_THROWS_AS(Triangle(1, std::numeric_limits<type_t>::max(), std::numeric_limits<type_t>::max()), std::overflow_error);
-        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<type_t>::max(), std::numeric_limits<type_t>::max(), std::numeric_limits<type_t>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), 1), std::overflow_error);
+        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<double>::max(), 1, std::numeric_limits<double>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Triangle(1, std::numeric_limits<double>::max(), std::numeric_limits<double>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Triangle(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max()), std::overflow_error);
     }
 }
 
@@ -47,7 +48,7 @@ TEST_CASE("Circle class tests", "[circle]") {
     }
 
     SECTION("Overflow") {
-        REQUIRE_THROWS_AS(Circle(std::numeric_limits<type_t>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Circle(std::numeric_limits<double>::max()), std::overflow_error);
     }
 }
 
@@ -66,9 +67,9 @@ TEST_CASE("Rectangle class tests", "[rectangle]") {
     }
 
     SECTION("Overflow") {
-        REQUIRE_THROWS_AS(Rectangle(std::numeric_limits<type_t>::max(), 1), std::overflow_error);
-        REQUIRE_THROWS_AS(Rectangle(1, std::numeric_limits<type_t>::max()), std::overflow_error);
-        REQUIRE_THROWS_AS(Rectangle(std::numeric_limits<type_t>::max(), std::numeric_limits<type_t>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Rectangle(std::numeric_limits<double>::max(), 1), std::overflow_error);
+        REQUIRE_THROWS_AS(Rectangle(1, std::numeric_limits<double>::max()), std::overflow_error);
+        REQUIRE_THROWS_AS(Rectangle(std::numeric_limits<double>::max(), std::numeric_limits<double>::max()), std::overflow_error);
     }
 }
 
@@ -171,5 +172,47 @@ TEST_CASE("FigureStringConverter class tests", "[figure_string_converter]") {
 
         auto rectangle = converter.make_figure("rectangle 3 4");
         REQUIRE(rectangle->to_str() == "rectangle 3 4");
+    }
+}
+
+TEST_CASE("RandomFigureFactory class tests", "[random_figure_factory]") {
+    RandomFigureFactory factory;
+
+    SECTION("Generate random figures with fixed seed") {
+        Figure* figure1 = factory.create_figure(12345);
+        REQUIRE(figure1 != nullptr);
+        REQUIRE_NOTHROW(figure1->to_str());
+
+        Figure* figure2 = factory.create_figure(67890);
+        REQUIRE(figure2 != nullptr);
+        REQUIRE_NOTHROW(figure2->to_str());
+
+        Figure* figure3 = factory.create_figure(54321);
+        REQUIRE(figure3 != nullptr);
+        REQUIRE_NOTHROW(figure3->to_str());
+
+        Figure* figure4 = factory.create_figure(98765);
+        REQUIRE(figure4 != nullptr);
+        REQUIRE_NOTHROW(figure4->to_str());
+    }
+
+    SECTION("Generate same figure with same seed") {
+        Figure* figure1 = factory.create_figure(12345);
+        Figure* figure2 = factory.create_figure(12345);
+        REQUIRE(figure1->to_str() == figure2->to_str());
+
+        Figure* figure3 = factory.create_figure(67890);
+        Figure* figure4 = factory.create_figure(67890);
+        REQUIRE(figure3->to_str() == figure4->to_str());
+    }
+
+    SECTION("Generate different figures with different seeds") {
+        Figure* figure1 = factory.create_figure(12345);
+        Figure* figure2 = factory.create_figure(67890);
+        REQUIRE(figure1->to_str() != figure2->to_str());
+
+        Figure* figure3 = factory.create_figure(54321);
+        Figure* figure4 = factory.create_figure(98765);
+        REQUIRE(figure3->to_str() != figure4->to_str());
     }
 }
