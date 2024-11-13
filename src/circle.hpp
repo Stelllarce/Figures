@@ -6,12 +6,13 @@
 
 class Circle: public Figure{
 public:
-    Circle(type_t rad);
+    Circle(double rad);
     
-    type_t perimeter() const noexcept override;
+    double perimeter() const noexcept override;
     std::string to_str() const override;
     std::unique_ptr<Figure> clone() const override;
+    static bool valid_params(double r);
 private:
     static constexpr double PI = 3.14159265358979323846; 
-    const type_t r;
+    const double r;
 };

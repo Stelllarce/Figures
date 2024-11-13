@@ -5,11 +5,12 @@
 
 class Triangle: public Figure {
 public:
-    Triangle(type_t a, type_t b, type_t c);
+    Triangle(double a, double b, double c);
 
-    type_t perimeter() const noexcept override;
+    double perimeter() const noexcept override;
     std::string to_str() const override;
     std::unique_ptr<Figure> clone() const override;
+    static bool valid_params(double a, double b, double c);
 private:
-    const type_t a, b, c;
+    const double a, b, c;
 };
