@@ -16,6 +16,9 @@ target_sources(
         "rectangle.cpp"
         "figure_string_converter.hpp"
         "figure_string_converter.cpp"
+        "figure_factory.hpp"
+        "random_figure_factory.hpp"
+        "random_figure_factory.cpp"
 )
 
 
