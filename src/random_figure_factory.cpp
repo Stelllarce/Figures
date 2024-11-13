@@ -1,7 +1,9 @@
 #include "random_figure_factory.hpp"
 #include <iostream>
 
-Figure* RandomFigureFactory::create_figure(long seed) {
+RandomFigureFactory::RandomFigureFactory(long seed): seed(seed) {}
+
+Figure* RandomFigureFactory::create_figure() {
     srand(seed);
     int random_fig = std::rand() % 3 + 1;
     FigureType fig = static_cast<FigureType>(random_fig);
