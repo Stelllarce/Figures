@@ -8,7 +8,7 @@
 #include "circle.hpp"
 #include "triangle.hpp"
 
-class FigureStringConverter {
+class StringToFigureConverter {
 public:
     Figure* make_figure(std::string repr);
 private:

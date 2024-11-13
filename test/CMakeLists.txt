@@ -12,6 +12,7 @@ target_sources(
     unit-tests
     PRIVATE
         "test-classes.cpp"
+        "test-factories.cpp"
 )
 
 # Automatically register all tests

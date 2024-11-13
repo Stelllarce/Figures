@@ -1,13 +1,13 @@
-#include "figure_string_converter.hpp"
+#include "string_to_figure_converter.hpp"
 
-FigureType FigureStringConverter::convert(const std::string& string) const {
+FigureType StringToFigureConverter::convert(const std::string& string) const {
     if (string == "triangle") return FigureType::Triangle;
     else if (string == "circle") return FigureType::Circle;
     else if (string == "rectangle") return FigureType::Rectangle;
     else return FigureType::InvalidType;
 }
 
-Figure* FigureStringConverter::make_figure(std::string repr) {
+Figure* StringToFigureConverter::make_figure(std::string repr) {
     if (repr.empty() || !isalpha(repr[0]))
         throw std::invalid_argument("Bad string");
     
