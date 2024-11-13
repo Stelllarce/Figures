@@ -19,19 +19,19 @@ Figure* FigureStringConverter::make_figure(std::string repr) {
     {
     case FigureType::Triangle:
     {
-        type_t a = -1, b = -1, c = -1;
+        double a = -1, b = -1, c = -1;
         stream_repr >> a >> b >> c;
         return new Triangle(a, b, c);      
     }
     case FigureType::Rectangle:
     {
-        type_t a = -1, b = -1;
+        double a = -1, b = -1;
         stream_repr >> a >> b;
         return new Rectangle(a, b);
     }
     case FigureType::Circle:
     {
-        type_t r = -1;
+        double r = -1;
         stream_repr >> r;
         return new Circle(r);
     }

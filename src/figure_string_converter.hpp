@@ -8,13 +8,6 @@
 #include "circle.hpp"
 #include "triangle.hpp"
 
-enum class FigureType {
-    InvalidType,
-    Circle,
-    Triangle,
-    Rectangle
-};
-
 class FigureStringConverter {
 public:
     Figure* make_figure(std::string repr);
