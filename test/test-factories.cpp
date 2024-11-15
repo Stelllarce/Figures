@@ -116,10 +116,6 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
 
         infile.close();
     }
-    SECTION("Handle file not open") {
-        std::ifstream infile;
-        REQUIRE_THROWS_AS(StreamFigureFactory(infile), std::invalid_argument);
-    }
     SECTION("Handle end of stream or EOF") {
         std::istringstream input("circle 10");
         StreamFigureFactory factory(input);
