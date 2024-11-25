@@ -21,6 +21,8 @@ target_sources(
         "random_figure_factory.cpp"
         "stream_figure_factory.hpp"
         "stream_figure_factory.cpp"
+        "input_type_factory.hpp"
+        "input_type_factory.cpp"
 )
 
 

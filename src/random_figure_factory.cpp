@@ -3,7 +3,7 @@
 
 RandomFigureFactory::RandomFigureFactory(long seed): seed(seed) {}
 
-Figure* RandomFigureFactory::create_figure() {
+std::unique_ptr<Figure> RandomFigureFactory::create_figure() {
     srand(seed);
     int random_fig = std::rand() % 3 + 1;
     FigureType fig = static_cast<FigureType>(random_fig);
@@ -25,14 +25,14 @@ Figure* RandomFigureFactory::create_figure() {
                 b = unif(reng);
                 c = unif(reng);
             }
-            return new Triangle(a, b, c);
+            return std::make_unique<Triangle>(a, b, c);
         }
         case FigureType::Circle:
         {
             double r = unif(reng);
             while (!Circle::valid_params(r))
                 r = unif(reng);
-            return new Circle(r);
+            return std::make_unique<Circle>(r);
         }
         case FigureType::Rectangle:
         {
@@ -44,7 +44,7 @@ Figure* RandomFigureFactory::create_figure() {
                 a = unif(reng);
                 b = unif(reng);
             }
-            return new Rectangle(a, b);
+            return std::make_unique<Rectangle>(a, b);
         }
     }
     return nullptr;

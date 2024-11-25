@@ -10,7 +10,7 @@ class RandomFigureFactory: public FigureFactory {
 public:
     RandomFigureFactory() = default;
     RandomFigureFactory(long seed);
-    Figure* create_figure() override;
+    std::unique_ptr<Figure> create_figure() override;
 private:
     long seed = time(NULL);
 };

@@ -7,7 +7,7 @@ FigureType StringToFigureConverter::enumify(const std::string& string) const {
     else return FigureType::InvalidType;
 }
 
-Figure* StringToFigureConverter::make_figure(const std::string& repr) {
+std::unique_ptr<Figure> StringToFigureConverter::make_figure(const std::string& repr) {
     if (repr.empty() || !isalpha(repr[0]))
         throw std::invalid_argument("Bad string");
     
@@ -21,19 +21,19 @@ Figure* StringToFigureConverter::make_figure(const std::string& repr) {
     {
         double a = -1, b = -1, c = -1;
         stream_repr >> a >> b >> c;
-        return new Triangle(a, b, c);      
+        return std::make_unique<Triangle>(a, b, c);      
     }
     case FigureType::Rectangle:
     {
         double a = -1, b = -1;
         stream_repr >> a >> b;
-        return new Rectangle(a, b);
+        return std::make_unique<Rectangle>(a, b);
     }
     case FigureType::Circle:
     {
         double r = -1;
         stream_repr >> r;
-        return new Circle(r);
+        return std::make_unique<Circle>(r);
     }
     case FigureType::InvalidType:
         throw std::invalid_argument("Invalid figure type");

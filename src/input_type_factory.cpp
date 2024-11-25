@@ -1,11 +1,15 @@
 #include "input_type_factory.hpp"
 
-FigureFactory* create_factory(const std::string& stream_type, std::istream* stream) {
-    if (stream_type == "random") {
-        return new RandomFigureFactory();
+std::unique_ptr<FigureFactory> InputTypeFactory::create(const std::string& in_type, std::istream* stream) {
+    if (in_type == "random") {
+        return std::make_unique<RandomFigureFactory>();
     }
-    else if (stream_type == "stream") {
-        return new StreamFigureFactory(std::move(*stream));
+    else if (in_type == "stream") {
+        if (!stream)
+            throw std::invalid_argument("No stream given");
+        return std::make_unique<StreamFigureFactory>(std::move(*stream));
     }
-    else return nullptr;
+    else 
+        throw std::invalid_argument("Invalid string");
+    return nullptr;
 }

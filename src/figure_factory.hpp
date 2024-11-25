@@ -6,6 +6,6 @@
 
 class FigureFactory {
 public:
-    virtual Figure* create_figure() = 0;
+    virtual std::unique_ptr<Figure> create_figure() = 0;
     virtual ~FigureFactory() = default;
 };

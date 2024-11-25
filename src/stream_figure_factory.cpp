@@ -2,13 +2,13 @@
 
 StreamFigureFactory::StreamFigureFactory(std::istream&& stream): is(stream) {}
 
-Figure* StreamFigureFactory::create_figure() {
+std::unique_ptr<Figure> StreamFigureFactory::create_figure() {
     if (is.eof())
         throw std::ios_base::failure("End of file reached");
     std::string buff;
     std::getline(is, buff);
     StringToFigureConverter creator;
-    Figure* fig = nullptr;
+    std::unique_ptr<Figure> fig = nullptr;
     try {
         fig = creator.make_figure(buff);
     } catch (std::exception &e) {
