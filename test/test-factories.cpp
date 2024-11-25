@@ -128,7 +128,6 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         REQUIRE_THROWS_AS(factory.create_figure(), std::ios_base::failure);
     }
     
-
 }
 
 TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
