@@ -69,7 +69,7 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
 
     SECTION("Generate figure from STDIN stream") {
         std::istringstream input("circle 10\ntriangle 10 10 10");
-        StreamFigureFactory factory(input);
+        StreamFigureFactory factory(std::move(input));
         Figure* figure = factory.create_figure();
         REQUIRE(figure != nullptr);
         REQUIRE_NOTHROW(figure->to_str());
@@ -87,7 +87,7 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         std::ifstream infile("test_input.txt");
         REQUIRE(infile.is_open());
 
-        StreamFigureFactory factory(infile);
+        StreamFigureFactory factory(std::move(infile));
         Figure* figure = factory.create_figure();
         REQUIRE(figure != nullptr);
         REQUIRE_NOTHROW(figure->to_str());
@@ -99,7 +99,7 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
 
     SECTION("Handle invalid input from STDIN stream") {
         std::istringstream input("triange 10 20 30");
-        StreamFigureFactory factory(input);
+        StreamFigureFactory factory(std::move(input));
         REQUIRE_THROWS_AS(factory.create_figure(), std::invalid_argument);
     }
 
@@ -111,14 +111,14 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         std::ifstream infile("test_invalid_input.txt");
         REQUIRE(infile.is_open());
 
-        StreamFigureFactory factory(infile);
+        StreamFigureFactory factory(std::move(infile));
         REQUIRE_THROWS_AS(factory.create_figure(), std::invalid_argument);
 
         infile.close();
     }
     SECTION("Handle end of stream or EOF") {
         std::istringstream input("circle 10");
-        StreamFigureFactory factory(input);
+        StreamFigureFactory factory(std::move(input));
         Figure* figure = factory.create_figure();
         REQUIRE(figure != nullptr);
         REQUIRE_NOTHROW(figure->to_str());

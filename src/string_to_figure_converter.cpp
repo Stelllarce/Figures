@@ -1,21 +1,21 @@
 #include "string_to_figure_converter.hpp"
 
-FigureType StringToFigureConverter::convert(const std::string& string) const {
+FigureType StringToFigureConverter::enumify(const std::string& string) const {
     if (string == "triangle") return FigureType::Triangle;
     else if (string == "circle") return FigureType::Circle;
     else if (string == "rectangle") return FigureType::Rectangle;
     else return FigureType::InvalidType;
 }
 
-Figure* StringToFigureConverter::make_figure(std::string repr) {
+Figure* StringToFigureConverter::make_figure(const std::string& repr) {
     if (repr.empty() || !isalpha(repr[0]))
         throw std::invalid_argument("Bad string");
     
-    std::stringstream stream_repr(repr);
+    std::stringstream stream_repr(std::move(repr));
     std::string type;
     stream_repr >> type;
 
-    switch (convert(type))
+    switch (enumify(type))
     {
     case FigureType::Triangle:
     {

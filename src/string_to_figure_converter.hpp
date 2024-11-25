@@ -10,7 +10,7 @@
 
 class StringToFigureConverter {
 public:
-    Figure* make_figure(std::string repr);
+    Figure* make_figure(const std::string& repr);
 private:
-    FigureType convert(const std::string& string) const;
+    FigureType enumify(const std::string& string) const;
 };

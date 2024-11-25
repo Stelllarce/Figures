@@ -1,6 +1,6 @@
 #include "stream_figure_factory.hpp"
 
-StreamFigureFactory::StreamFigureFactory(std::istream& stream): is(stream) {}
+StreamFigureFactory::StreamFigureFactory(std::istream&& stream): is(stream) {}
 
 Figure* StreamFigureFactory::create_figure() {
     if (is.eof())

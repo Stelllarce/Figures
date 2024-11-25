@@ -8,7 +8,6 @@
 
 #include "string_converter.hpp"
 
-// Use these to make the code maintanable and change types easily
 #define MAX_OVERFLOW DBL_MAX
 
 enum class FigureType {
