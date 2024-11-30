@@ -1,9 +1,9 @@
 #include "catch2/catch_all.hpp"
-#include "triangle.hpp"
-#include "circle.hpp"
-#include "rectangle.hpp"
-#include "string_to_figure_converter.hpp"
-#include "random_figure_factory.hpp"
+#include "figurelib/triangle.hpp"
+#include "figurelib/circle.hpp"
+#include "figurelib/rectangle.hpp"
+#include "figurelib/string_to_figure_converter.hpp"
+#include "figurelib/random_figure_factory.hpp"
 #include <limits> // for numeric limits
 
 TEST_CASE("Triangle class tests", "[triangle]") {

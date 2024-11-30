@@ -1,10 +1,10 @@
 #include "catch2/catch_all.hpp"
-#include "triangle.hpp"
-#include "circle.hpp"
-#include "rectangle.hpp"
-#include "random_figure_factory.hpp"
-#include "stream_figure_factory.hpp"
-#include "input_type_factory.hpp"
+#include "figurelib/triangle.hpp"
+#include "figurelib/circle.hpp"
+#include "figurelib/rectangle.hpp"
+#include "figurelib/random_figure_factory.hpp"
+#include "figurelib/stream_figure_factory.hpp"
+#include "figurelib/input_type_factory.hpp"
 #include <sstream>
 #include <fstream>
 #include <limits> // for numeric limits
