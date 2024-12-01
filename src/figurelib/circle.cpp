@@ -1,8 +1,8 @@
 #include "circle.hpp"
 
 Circle::Circle(double rad): r(rad) {
-    if (r <= 0) throw std::invalid_argument("Radius can't be negative or zero");
-    if (r > MAX_OVERFLOW / (2 * PI)) throw std::overflow_error("Perimeter overflow");
+    if (negative_or_zero(r)) throw std::invalid_argument("Radius can't be negative or zero");
+    if (overflow(r)) throw std::overflow_error("Perimeter overflow");
 }
 
 double Circle::perimeter() const noexcept { return (double)(2 * r * PI); }
@@ -18,6 +18,14 @@ std::unique_ptr<Figure> Circle::clone() const {
     return std::make_unique<Circle>(*this);
 }
 
+bool Circle::negative_or_zero(double r) {
+    return r <= 0;
+}
+
+bool Circle::overflow(double r) {
+    return r > MAX_OVERFLOW / (2 * PI);
+}
+
 bool Circle::valid_params(double r) {
-    return !(r <= 0 || r > MAX_OVERFLOW / (2 * PI));
+    return !(negative_or_zero(r) || overflow(r));
 }

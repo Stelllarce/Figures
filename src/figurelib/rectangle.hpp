@@ -12,5 +12,7 @@ public:
     std::unique_ptr<Figure> clone() const override;
     static bool valid_params(double a, double b);
 private:
-    double a, b;
+    static bool negative_or_zero(double a, double b);
+    static bool overflow(double a, double b);
+    const double a, b;
 };

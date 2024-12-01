@@ -13,6 +13,8 @@ public:
     std::unique_ptr<Figure> clone() const override;
     static bool valid_params(double r);
 private:
+    static bool negative_or_zero(double r);
+    static bool overflow(double r);
     static constexpr double PI = 3.14159265358979323846; 
     const double r;
 };
