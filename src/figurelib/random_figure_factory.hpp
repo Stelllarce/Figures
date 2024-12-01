@@ -1,8 +1,8 @@
 #pragma once
 #include "figure_factory.hpp"
 #include <random>
-#include <type_traits>
 #include <ctime>
+#include <cstdlib>
 
 class RandomFigureFactory: public FigureFactory {
 public:
