@@ -3,6 +3,9 @@
 #include "figure.hpp"
 #include "string_converter.hpp"
 
+/**
+ * @brief Rectangle class
+ */
 class Rectangle: public Figure {
 public:
     Rectangle(double a, double b);

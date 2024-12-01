@@ -3,6 +3,9 @@
 #include "figure.hpp"
 #include "string_converter.hpp"
 
+/**
+ * @brief Triangle class
+ */
 class Triangle: public Figure {
 public:
     Triangle(double a, double b, double c);

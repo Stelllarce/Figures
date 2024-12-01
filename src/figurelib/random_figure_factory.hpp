@@ -4,8 +4,6 @@
 #include <type_traits>
 #include <ctime>
 
-
-
 class RandomFigureFactory: public FigureFactory {
 public:
     RandomFigureFactory() = default;

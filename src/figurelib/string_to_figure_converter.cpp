@@ -1,5 +1,10 @@
 #include "string_to_figure_converter.hpp"
 
+/**
+ * @brief Convert a string to a figure enum type
+ * @param string The string to convert
+ * @return FigureType The converted figure type
+ */
 FigureType StringToFigureConverter::enumify(const std::string& string) const {
     if (string == "triangle") return FigureType::Triangle;
     else if (string == "circle") return FigureType::Circle;
@@ -7,6 +12,11 @@ FigureType StringToFigureConverter::enumify(const std::string& string) const {
     else return FigureType::InvalidType;
 }
 
+/**
+ * @brief Convert a string to a figure
+ * @param repr The string to convert
+ * @return std::unique_ptr<Figure> A unique pointer to the created figure
+ */
 std::unique_ptr<Figure> StringToFigureConverter::make_figure(const std::string& repr) {
     if (repr.empty() || !isalpha(repr[0]))
         throw std::invalid_argument("Bad string");

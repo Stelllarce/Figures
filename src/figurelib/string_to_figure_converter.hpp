@@ -8,6 +8,9 @@
 #include "circle.hpp"
 #include "triangle.hpp"
 
+/**
+ * @brief Class for converting strings to figures
+ */
 class StringToFigureConverter {
 public:
     std::unique_ptr<Figure> make_figure(const std::string& repr);

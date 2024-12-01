@@ -3,7 +3,9 @@
 #include "figure.hpp"
 #include "string_converter.hpp"
 
-
+/**
+ * @brief Circle class
+ */
 class Circle: public Figure{
 public:
     Circle(double rad);
