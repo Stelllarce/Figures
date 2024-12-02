@@ -69,7 +69,7 @@ TEST_CASE("RandomFigureFactory class tests", "[random_figure_factory]") {
 TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
 
     SECTION("Generate figure from STDIN stream") {
-        std::istringstream input("circle 10\ntriangle 10 10 10");
+        auto input = std::make_unique<std::istringstream>("circle 10\ntriangle 10 10 10");
         StreamFigureFactory factory(std::move(input));
         std::unique_ptr<Figure> figure = factory.create_figure();
         REQUIRE(figure != nullptr);
@@ -85,8 +85,8 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         outfile << "rectangle 5 10";
         outfile.close();
 
-        std::ifstream infile("test_input.txt");
-        REQUIRE(infile.is_open());
+        auto infile = std::make_unique<std::ifstream>("test_input.txt");
+        REQUIRE(infile->is_open());
 
         StreamFigureFactory factory(std::move(infile));
         std::unique_ptr<Figure> figure = factory.create_figure();
@@ -94,12 +94,11 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         REQUIRE_NOTHROW(figure->to_str());
         REQUIRE(figure->to_str() == "rectangle 5 10");
 
-        infile.close();
         std::remove("test_input.txt");
     }
 
     SECTION("Handle invalid input from STDIN stream") {
-        std::istringstream input("triange 10 20 30");
+        auto input = std::make_unique<std::istringstream>("triange 10 20 30");
         StreamFigureFactory factory(std::move(input));
         REQUIRE_THROWS_AS(factory.create_figure(), std::invalid_argument);
     }
@@ -109,16 +108,17 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
         outfile << "invalid input";
         outfile.close();
 
-        std::ifstream infile("test_invalid_input.txt");
-        REQUIRE(infile.is_open());
+        auto infile = std::make_unique<std::ifstream>("test_invalid_input.txt");
+        REQUIRE(infile->is_open());
 
         StreamFigureFactory factory(std::move(infile));
         REQUIRE_THROWS_AS(factory.create_figure(), std::invalid_argument);
 
-        infile.close();
+        std::remove("test_invalid_input.txt");
     }
+
     SECTION("Handle end of stream or EOF") {
-        std::istringstream input("circle 10");
+        auto input = std::make_unique<std::istringstream>("circle 10");
         StreamFigureFactory factory(std::move(input));
         std::unique_ptr<Figure> figure = factory.create_figure();
         REQUIRE(figure != nullptr);
@@ -127,7 +127,6 @@ TEST_CASE("StreamFigureFactory class tests", "[stream_figure_factory]") {
 
         REQUIRE_THROWS_AS(factory.create_figure(), std::ios_base::failure);
     }
-    
 }
 
 TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
@@ -139,8 +138,8 @@ TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
     }
 
     SECTION("Create StreamFigureFactory with 'stream' input type and valid stream") {
-        std::istringstream input("circle 10\ntriangle 10 10 10");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", &input);
+        auto input = std::make_unique<std::istringstream>("circle 10\ntriangle 10 10 10");
+        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
         REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
 
         std::unique_ptr<Figure> figure = figureFactory->create_figure();
@@ -154,8 +153,8 @@ TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
     }
 
     SECTION("Create StreamFigureFactory with 'stream' input type and invalid stream") {
-        std::istringstream input("invalid input");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", &input);
+        auto input = std::make_unique<std::istringstream>("invalid input");
+        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
         REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
 
         REQUIRE_THROWS_AS(figureFactory->create_figure(), std::invalid_argument);
@@ -179,8 +178,8 @@ TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
     }
 
     SECTION("Create a stream factory and test its functionality") {
-        std::istringstream input("circle 10\ntriangle 10 10 10");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", &input);
+        auto input = std::make_unique<std::istringstream>("circle 10\ntriangle 10 10 10");
+        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
         REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
 
         std::unique_ptr<Figure> figure = figureFactory->create_figure();

@@ -8,8 +8,8 @@
  */
 class StreamFigureFactory: public FigureFactory {
 public:
-    StreamFigureFactory(std::istream&& stream);
+    StreamFigureFactory(std::unique_ptr<std::istream> stream);
     std::unique_ptr<Figure> create_figure() override;
 private:
-    std::istream& is; // Refrence to the stream, as it can't be copied
+    std::unique_ptr<std::istream> is; // Refrence to the stream, as it can't be copied
 };
