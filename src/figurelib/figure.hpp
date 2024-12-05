@@ -35,10 +35,5 @@ public:
      * @return std::unique_ptr<Figure> A unique pointer to the cloned figure
      */
     virtual std::unique_ptr<Figure> clone() const = 0;
-    /**
-     * @brief Convert the figure to a string
-     * @return std::string The string representation of the figure
-     */
-    virtual std::string to_str() const override;
     virtual ~Figure() = default;
 };
