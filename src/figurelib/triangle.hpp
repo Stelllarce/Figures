@@ -1,7 +1,7 @@
 #pragma once
 
 #include "figure.hpp"
-#include "string_converter.hpp"
+#include "string_convertible.hpp"
 
 /**
  * @brief Triangle class

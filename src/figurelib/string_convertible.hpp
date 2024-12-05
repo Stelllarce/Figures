@@ -5,10 +5,10 @@
 /**
  * @brief Interface for converting objects to strings
  */
-class StringConverter {
+class StringConvertible {
 public:
     virtual std::string to_str() const = 0;
-    virtual ~StringConverter() = default;
+    virtual ~StringConvertible() = default;
 protected:
     /**
      * @brief Convert a double to a string (helper function for derived classes)

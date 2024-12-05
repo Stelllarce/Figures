@@ -6,7 +6,7 @@
 #include <math.h>
 #include <memory>
 
-#include "string_converter.hpp"
+#include "string_convertible.hpp"
 
 #define MAX_OVERFLOW DBL_MAX
 
@@ -23,7 +23,7 @@ enum class FigureType {
 /**
  * @brief Figure interface
  */
-class Figure: public StringConverter {
+class Figure: public StringConvertible {
 public:
     /**
      * @brief Calculate the perimeter of the figure
