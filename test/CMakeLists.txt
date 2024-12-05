@@ -15,7 +15,9 @@ target_sources(
         "test-rectangle.cpp"
         "test-triangle.cpp"
         "test-string-figure-factory.cpp"
-        # "test-factories.cpp"
+        "test-random-factory.cpp"
+        "test-input-type-factory.cpp"
+        "test-stream-figure-factory.cpp"
 )
 
 # Automatically register all tests
