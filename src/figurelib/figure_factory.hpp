@@ -14,5 +14,6 @@ public:
      * @return std::unique_ptr<Figure> A unique pointer to the created figure
      */
     virtual std::unique_ptr<Figure> create_figure() = 0;
+    // virtual std::unique_ptr<Figure> create_figure(const std::string&);
     virtual ~FigureFactory() = default;
 };

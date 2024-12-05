@@ -18,7 +18,7 @@ std::unique_ptr<Figure> StreamFigureFactory::create_figure() {
     StringToFigureConverter creator;
     std::unique_ptr<Figure> fig = nullptr;
     try {
-        fig = creator.make_figure(buff);
+        fig = creator.create_figure(buff);
     } catch (std::exception &e) {
         throw std::invalid_argument("Stream contains invalid lines");
     }

@@ -8,7 +8,7 @@
 
 #include "string_convertible.hpp"
 
-#define MAX_OVERFLOW DBL_MAX
+const auto MAX_OVERFLOW = DBL_MAX;
 
 /**
  * @brief Enum class for the figure types
@@ -39,6 +39,6 @@ public:
      * @brief Convert the figure to a string
      * @return std::string The string representation of the figure
      */
-    virtual std::string to_str() const  = 0;
+    virtual std::string to_str() const override;
     virtual ~Figure() = default;
 };

@@ -1,7 +1,7 @@
 # Sample static library
 add_library(figurelib STATIC)
 
-set_target_properties(figurelib PROPERTIES OUTPUT_NAME "sample")
+set_target_properties(figurelib PROPERTIES OUTPUT_NAME "figlib")
 
 target_sources(
     figurelib
@@ -11,7 +11,7 @@ target_sources(
         "triangle.cpp"
         "circle.hpp"
         "circle.cpp"
-        "string_converter.hpp"
+        "string_convertible.hpp"
         "rectangle.hpp"
         "rectangle.cpp"
         "string_to_figure_converter.hpp"
@@ -23,4 +23,5 @@ target_sources(
         "stream_figure_factory.cpp"
         "input_type_factory.hpp"
         "input_type_factory.cpp"
+        "abstract_factory.hpp"
 )

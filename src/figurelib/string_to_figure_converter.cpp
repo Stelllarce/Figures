@@ -17,7 +17,7 @@ FigureType StringToFigureConverter::enumify(const std::string& string) const {
  * @param repr The string to convert
  * @return std::unique_ptr<Figure> A unique pointer to the created figure
  */
-std::unique_ptr<Figure> StringToFigureConverter::make_figure(const std::string& repr) {
+std::unique_ptr<Figure> StringToFigureConverter::create_figure(const std::string& repr) {
     if (repr.empty() || !isalpha(repr[0]))
         throw std::invalid_argument("Bad string");
     

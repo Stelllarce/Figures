@@ -11,8 +11,11 @@ target_link_libraries(
 target_sources(
     unit-tests
     PRIVATE
-        "test-classes.cpp"
-        "test-factories.cpp"
+        "test-circle.cpp"
+        "test-rectangle.cpp"
+        "test-triangle.cpp"
+        "test-string-figure-factory.cpp"
+        # "test-factories.cpp"
 )
 
 # Automatically register all tests
