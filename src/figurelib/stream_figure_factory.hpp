@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include "figure_factory.hpp"
 #include "string_to_figure_converter.hpp"
 
@@ -8,8 +9,10 @@
  */
 class StreamFigureFactory: public FigureFactory {
 public:
-    StreamFigureFactory(std::unique_ptr<std::istream> stream);
+    StreamFigureFactory(std::istream& stream);
+    StreamFigureFactory(std::ifstream& stream);
     std::unique_ptr<Figure> create_figure() override;
 private:
-    std::unique_ptr<std::istream> is; // Refrence to the stream, as it can't be copied
+    std::istream& is;
+    std::ifstream ifs;
 };
