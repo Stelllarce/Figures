@@ -9,66 +9,76 @@
 #include <fstream>
 #include <limits> // for numeric limits
 
-TEST_CASE("InputTypeFactory class tests", "[input_type_factory]") {
+InputTypeFactory globalFactory;
 
-    InputTypeFactory factory;
-    SECTION("Create RandomFigureFactory with 'random' input type") {
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("random");
-        REQUIRE(dynamic_cast<RandomFigureFactory*>(figureFactory.get()) != nullptr);
-    }
+TEST_CASE("Create RandomFigureFactory with 'random' input type", "[input_type_factory]") {
+    std::unique_ptr<FigureFactory> figureFactory = globalFactory.create_factory("random");
+    REQUIRE(dynamic_cast<RandomFigureFactory*>(figureFactory.get()) != nullptr);
+}
 
-    SECTION("Create StreamFigureFactory with 'stream' input type and valid stream") {
-        auto input = std::make_unique<std::istringstream>("circle 10\ntriangle 10 10 10");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
-        REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
+TEST_CASE("Create StreamFigureFactory with 'stream' input type and valid stream", "[input_type_factory]") {
+    std::unique_ptr<FigureFactory> figureFactory = globalFactory.create_factory("stream triangle 10 10 10\ncircle 5");
+    REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
 
-        std::unique_ptr<Figure> figure = figureFactory->create_figure();
-        REQUIRE(figure != nullptr);
-        REQUIRE_NOTHROW(figure->to_str());
-        REQUIRE(figure->to_str() == "circle 10");
+    std::unique_ptr<Figure> figure = figureFactory->create_figure();
+    REQUIRE(figure != nullptr);
+    REQUIRE_NOTHROW(figure->to_str());
+    REQUIRE(figure->to_str() == "triangle 10 10 10");
 
-        std::unique_ptr<Figure> figure2 = figureFactory->create_figure();
-        REQUIRE_NOTHROW(figure2->to_str());
-        REQUIRE(figure2->to_str() == "triangle 10 10 10");
-    }
+    std::unique_ptr<Figure> figure2 = figureFactory->create_figure();
+    REQUIRE_NOTHROW(figure2->to_str());
+    REQUIRE(figure2->to_str() == "circle 5");
+}
 
-    SECTION("Create StreamFigureFactory with 'stream' input type and invalid stream") {
-        auto input = std::make_unique<std::istringstream>("invalid input");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
-        REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
+TEST_CASE("Handle invalid input type", "[input_type_factory]") {
+    REQUIRE_THROWS_AS(globalFactory.create_factory("invalid_type"), std::invalid_argument);
+}
 
-        REQUIRE_THROWS_AS(figureFactory->create_figure(), std::invalid_argument);
-    }
+TEST_CASE("Handle missing stream for 'stream' input type", "[input_type_factory]") {
+    auto fig_factory = globalFactory.create_factory("stream");
+    REQUIRE_THROWS_AS(fig_factory->create_figure(), std::invalid_argument);
+}
 
-    SECTION("Handle invalid input type") {
-        REQUIRE_THROWS_AS(factory.create("invalid_type"), std::invalid_argument);
-    }
+TEST_CASE("Create a random factory and test its functionality", "[input_type_factory]") {
+    std::unique_ptr<FigureFactory> figureFactory = globalFactory.create_factory("random");
+    REQUIRE(dynamic_cast<RandomFigureFactory*>(figureFactory.get()) != nullptr);
 
-    SECTION("Handle missing stream for 'stream' input type") {
-        REQUIRE_THROWS_AS(factory.create("stream"), std::invalid_argument);
-    }
+    std::unique_ptr<Figure> figure = figureFactory->create_figure();
+    REQUIRE(figure != nullptr);
+    REQUIRE_NOTHROW(figure->to_str());
+}
 
-    SECTION("Create a random factory and test its functionality") {
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("random");
-        REQUIRE(dynamic_cast<RandomFigureFactory*>(figureFactory.get()) != nullptr);
+TEST_CASE("Create a stream factory and test its functionality", "[input_type_factory]") {
+    std::string input("stream circle 10\ntriangle 10 10 10");
+    std::unique_ptr<FigureFactory> figureFactory = globalFactory.create_factory(input);
+    REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
 
-        std::unique_ptr<Figure> figure = figureFactory->create_figure();
-        REQUIRE(figure != nullptr);
-        REQUIRE_NOTHROW(figure->to_str());
-    }
+    std::unique_ptr<Figure> figure = figureFactory->create_figure();
+    REQUIRE(figure != nullptr);
+    REQUIRE_NOTHROW(figure->to_str());
+    REQUIRE(figure->to_str() == "circle 10");
 
-    SECTION("Create a stream factory and test its functionality") {
-        auto input = std::make_unique<std::istringstream>("circle 10\ntriangle 10 10 10");
-        std::unique_ptr<FigureFactory> figureFactory = factory.create("stream", std::move(input));
-        REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
+    std::unique_ptr<Figure> figure2 = figureFactory->create_figure();
+    REQUIRE_NOTHROW(figure2->to_str());
+    REQUIRE(figure2->to_str() == "triangle 10 10 10");
+}
 
-        std::unique_ptr<Figure> figure = figureFactory->create_figure();
-        REQUIRE(figure != nullptr);
-        REQUIRE_NOTHROW(figure->to_str());
-        REQUIRE(figure->to_str() == "circle 10");
+TEST_CASE("Create a file stream factory and test its functionality", "[input_type_factory]") {
+    std::ofstream outfile("test_figures.txt");
+    outfile << "rectangle 4 5\ncircle 7";
+    outfile.close();
 
-        std::unique_ptr<Figure> figure2 = figureFactory->create_figure();
-        REQUIRE_NOTHROW(figure2->to_str());
-        REQUIRE(figure2->to_str() == "triangle 10 10 10");
-    }
+    std::unique_ptr<FigureFactory> figureFactory = globalFactory.create_factory("file test_figures.txt");
+    REQUIRE(dynamic_cast<StreamFigureFactory*>(figureFactory.get()) != nullptr);
+
+    std::unique_ptr<Figure> figure = figureFactory->create_figure();
+    REQUIRE(figure != nullptr);
+    REQUIRE_NOTHROW(figure->to_str());
+    REQUIRE(figure->to_str() == "rectangle 4 5");
+
+    std::unique_ptr<Figure> figure2 = figureFactory->create_figure();
+    REQUIRE_NOTHROW(figure2->to_str());
+    REQUIRE(figure2->to_str() == "circle 7");
+
+    std::remove("test_figures.txt");
 }

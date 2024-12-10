@@ -8,5 +8,5 @@
  */
 class InputTypeFactory : public AbstractFactory {
 public:
-    std::unique_ptr<FigureFactory> create(const std::string& in_type, std::unique_ptr<std::istream> stream = nullptr) override;
+    std::unique_ptr<FigureFactory> create_factory(const std::string& input) override;
 };

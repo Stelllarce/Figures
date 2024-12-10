@@ -22,13 +22,13 @@ std::unique_ptr<Figure> StreamFigureFactory::create_figure() {
     if (!is.good())
         throw std::ios_base::failure("Stream broken");
     std::string buff;
-    std::getline(is, buff);
+    try{
+        std::getline(is, buff);
+    } catch (...) {
+        throw std::runtime_error("Getline failure when extracting figure from stream");
+    }
     StringToFigureConverter creator;
     std::unique_ptr<Figure> fig = nullptr;
-    try {
-        fig = creator.create_figure(buff);
-    } catch (std::exception &e) {
-        throw std::invalid_argument("Stream contains invalid lines");
-    }
+    fig = creator.create_figure(buff);
     return fig;
 }
