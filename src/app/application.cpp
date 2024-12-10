@@ -3,14 +3,20 @@
 #include <vector>
 #include <map>
 #include <functional>
-#include "figurelib/input_type_factory.hpp"
+#include "../figurelib/input_type_factory.hpp"
 
+/**
+ * @brief Prints figures to stdout
+ */
 void print_to_out(const std::vector<std::unique_ptr<Figure>>& figures) {
     for (const auto& fig : figures) {
         std::cout << fig->to_str() << '\n';
     }
 }
 
+/**
+ * @brief Saves figures to a file
+ */
 void print_to_file(const std::vector<std::unique_ptr<Figure>>& figures) {
     std::string file_path;
     std::cout << "Enter the file path: ";
@@ -26,12 +32,18 @@ void print_to_file(const std::vector<std::unique_ptr<Figure>>& figures) {
     file.close();
 }
 
+/**
+ * @brief Shows perimeters of figures to stdout
+ */
 void show_perimeters(const std::vector<std::unique_ptr<Figure>>& figures) {
     for (const auto& fig : figures) {
         std::cout << fig->perimeter() << '\n';
     }
 }
 
+/**
+ * @brief Clones figures and prints them to stdout
+ */
 void clone_figures(std::vector<std::unique_ptr<Figure>>& figures) {
     std::vector<std::unique_ptr<Figure>> clones;
     for (const auto& fig : figures) {
@@ -43,12 +55,18 @@ void clone_figures(std::vector<std::unique_ptr<Figure>>& figures) {
     }
 }
 
+/**
+ * @brief Lists figures to stdout
+ */
 void list_figures(const std::vector<std::unique_ptr<Figure>>& figures) {
     for (size_t i = 0; i < figures.size(); ++i) {
         std::cout << i << ": " << figures[i]->to_str() << '\n';
     }
 }
 
+/**
+ * @brief Deletes a figure from the list
+ */
 void delete_figure(std::vector<std::unique_ptr<Figure>>& figures) {
     size_t index;
     std::cout << "Enter the index of the figure to delete: ";
@@ -61,6 +79,9 @@ void delete_figure(std::vector<std::unique_ptr<Figure>>& figures) {
     }
 }
 
+/**
+ * @brief Reads figures from the input stream
+ */
 void read_figures(std::vector<std::unique_ptr<Figure>>& figures, std::unique_ptr<FigureFactory>& factory, int figure_count) {
     for (int i = 0; i < figure_count; i++) {
         try {
@@ -82,24 +103,8 @@ void read_figures(std::vector<std::unique_ptr<Figure>>& figures, std::unique_ptr
     }
 }
 
-void init() {
-    std::cout << "Program active" << '\n';
-    std::string input, line;
-    InputTypeFactory input_factory;
-    std::unique_ptr<FigureFactory> factory;
-    std::vector<std::unique_ptr<Figure>> figures;
-    std::ifstream file;
-    int figure_count;
-
-    do {
-        std::cout << "Enter the number of figures: ";
-        std::cin >> figure_count;
-    } while (figure_count <= 0);
-    std::cout << "If the used method is either stdin or file then type:\n"
-                    "for case stdin: stream <figure1>\n<figure2> ...\n"
-                    "for case file: file <file_path>\n";
-    std::cout << "Enter the preferred input method (random, stream, file), followed by " << figure_count << " figures: ";
-    std::cin >> input;
+void format_input(std::string& input, const int figure_count) {
+    std::string line;
     if (input == "stream") {
         for (unsigned i = 0; i < figure_count; ++i) {
             std::getline(std::cin, line);
@@ -110,14 +115,42 @@ void init() {
         std::cin >> line;
         input += ' ' + line;
     }
+}
 
-    try {
-        factory = input_factory.create_factory(input);
-    } catch(const std::invalid_argument& e) {
-        std::cerr << e.what() << '\n';
-        return;
+void init() {
+    std::cout << "Program active" << '\n';
+    std::string input;
+    InputTypeFactory input_factory;
+    std::unique_ptr<FigureFactory> factory;
+    std::vector<std::unique_ptr<Figure>> figures;
+    std::ifstream file;
+    int figure_count;   
+    while (true) {
+        // TODO: handle input not being a number
+        do {
+            std::cout << "Enter the number of figures: ";
+            std::cin >> figure_count;
+        } while (figure_count <= 0);
+
+        std::cout << "If the used method is either stdin or file then type:\n"
+                        "for case stdin: stream <figure1>\n<figure2> ...\n"
+                        "for case file: file <file_path>\n";
+        std::cout << "Enter the preferred input method (random, stream, file), followed by " << figure_count << " figures: ";
+        std::cin >> input;
+
+        // Format the string to pass to the factory
+        format_input(input, figure_count);
+
+        try {
+            factory = input_factory.create_factory(input);
+        } catch(const std::invalid_argument& e) {
+            std::cerr << e.what() << '\n';
+            std::cout << "Restarting..\n";
+            continue;
+        }
+        break;
     }
-
+    
     read_figures(figures, factory, figure_count);
 
     std::map<std::string, std::function<void(std::vector<std::unique_ptr<Figure>>&)> > operations = {
@@ -130,7 +163,6 @@ void init() {
     };
 
     std::string operation;
-    // std::cin.ignore(50);
     while (true) {
         std::cout << "Enter the operation (printo, printf, perimeter, clone, list, delete, exit): ";
         std::cin >> operation;
