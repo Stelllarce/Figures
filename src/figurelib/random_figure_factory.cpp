@@ -18,7 +18,7 @@ std::unique_ptr<Figure> RandomFigureFactory::create_figure() {
     const double upper = 1.0 + 10E3; // Upper limit for random double generation
     const double lower = 1.0; // Lower limit for random double generation
 
-    auto random_double = [lower, upper]() {
+    auto random_double = [](int lower, int upper) {
         return lower + static_cast<double>(std::rand()) / RAND_MAX * (upper - lower);
     };
 
@@ -26,32 +26,32 @@ std::unique_ptr<Figure> RandomFigureFactory::create_figure() {
     {
         case FigureType::Triangle:
         {
-            double a = random_double();
-            double b = random_double(); 
-            double c = random_double();
+            double a = random_double(lower, upper);
+            double b = random_double(lower, upper); 
+            double c = random_double(lower, upper);
             while (!Triangle::valid_params(a, b, c)) // Create values until valid
             {
-                a = random_double();
-                b = random_double();
-                c = random_double();
+                a = random_double(lower, upper);
+                b = random_double(lower, upper);
+                c = random_double(lower, upper);
             }
             return std::make_unique<Triangle>(a, b, c);
         }
         case FigureType::Circle:
         {
-            double r = random_double();
+            double r = random_double(lower, upper);
             while (!Circle::valid_params(r)) // Create values until valid
-                r = random_double();
+                r = random_double(lower, upper);
             return std::make_unique<Circle>(r);
         }
         case FigureType::Rectangle:
         {
-            double a = random_double();
-            double b = random_double();
+            double a = random_double(lower, upper);
+            double b = random_double(lower, upper);
             while (!Rectangle::valid_params(a, b)) // Create values until valid
             {
-                a = random_double();
-                b = random_double();
+                a = random_double(lower, upper);
+                b = random_double(lower, upper);
             }
             return std::make_unique<Rectangle>(a, b);
         }
